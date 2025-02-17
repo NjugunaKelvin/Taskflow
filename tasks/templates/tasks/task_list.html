@@ -1,23 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Task List</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body class="container mt-4">
-    <h2>Task List</h2>
-    <a href="{% url 'task_create' %}" class="btn btn-primary">Add Task</a> <!-- We'll update this later -->
+{% extends 'base.html' %}
 
-    <ul class="list-group mt-3">
-        {% for task in tasks %}
-            <li class="list-group-item d-flex justify-content-between">
-                <span>{{ task.title }}</span>
-                <span class="text-muted">{{ task.created_at }}</span>
-            </li>
-            <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
-        {% empty %}
-            <p>No tasks yet.</p>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>My Tasks</h2>
+        </div>
+        <div class="col text-end">
+            <a href="{% url 'task_create' %}" class="btn btn-primary">
+                <i class="bi bi-plus"></i> Add New Task
+            </a>
+        </div>
+    </div>
+
+    {% if tasks %}
+        <div class="row">
+            {% for task in tasks %}
+                <div class="col-md-6 mb-3">
+                    <div class="card {% if task.completed %}border-success{% endif %}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ task.title }}</h5>
+                            <p class="card-text">{{ task.description|default:"No description provided" }}</p>
+                            <p class="text-muted small">Created: {{ task.created_at|date:"M d, Y" }}</p>
+                            
+                            <div class="btn-group" role="group">
+                                <form method="POST" action="{% url 'task_delete' task.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm" 
+                                            onclick="return confirm('Are you sure you want to delete this task?');">
+                                        Delete
+                                    </button>
+                                </form>
+                                {% if not task.completed %}
+                                    <form method="POST" action="#" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success btn-sm ms-2">
+                                            Mark Complete
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">No Tasks Yet</h5>
+                <p class="card-text">Start by adding your first task!</p>
+                <a href="{% url 'task_create' %}" class="btn btn-primary">
+                    Add Task
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Add this before the closing body tag in your base.html -->
+<style>
+    .card {
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
