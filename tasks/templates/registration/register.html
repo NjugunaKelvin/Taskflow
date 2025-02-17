@@ -6,7 +6,7 @@
         <div class="card shadow-sm">
             <div class="card-body p-4">
                 <h2 class="text-center mb-4">
-                    <i class="bi bi-person-circle"></i> Login
+                    <i class="bi bi-person-plus"></i> Register
                 </h2>
 
                 {% if messages %}
@@ -31,7 +31,7 @@
                                    name="username" 
                                    class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
                                    id="username" 
-                                   placeholder="Enter your username"
+                                   placeholder="Choose a username"
                                    required>
                             {% if form.username.errors %}
                                 <div class="invalid-feedback">
@@ -42,20 +42,40 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password1" class="form-label">Password</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-lock"></i>
                             </span>
                             <input type="password" 
-                                   name="password" 
-                                   class="form-control {% if form.password.errors %}is-invalid{% endif %}" 
-                                   id="password" 
-                                   placeholder="Enter your password"
+                                   name="password1" 
+                                   class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                                   id="password1" 
+                                   placeholder="Create a password"
                                    required>
-                            {% if form.password.errors %}
+                            {% if form.password1.errors %}
                                 <div class="invalid-feedback">
-                                    {{ form.password.errors|join:", " }}
+                                    {{ form.password1.errors|join:", " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password2" class="form-label">Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock-fill"></i>
+                            </span>
+                            <input type="password" 
+                                   name="password2" 
+                                   class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                                   id="password2" 
+                                   placeholder="Confirm your password"
+                                   required>
+                            {% if form.password2.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.password2.errors|join:", " }}
                                 </div>
                             {% endif %}
                         </div>
@@ -63,7 +83,7 @@
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-box-arrow-in-right"></i> Login
+                            <i class="bi bi-person-plus"></i> Register
                         </button>
                     </div>
                 </form>
@@ -71,9 +91,9 @@
                 <hr class="my-4">
 
                 <div class="text-center">
-                    <p class="mb-0">Don't have an account?</p>
-                    <a href="{% url 'register' %}" class="text-decoration-none">
-                        Create an account
+                    <p class="mb-0">Already have an account?</p>
+                    <a href="{% url 'login' %}" class="text-decoration-none">
+                        Login here
                     </a>
                 </div>
             </div>
