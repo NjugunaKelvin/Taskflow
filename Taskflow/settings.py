@@ -17,9 +17,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['taskflow-c9tq.onrender.com', 'localhost']
 
-# ALLOWED_HOSTS = ['your-render-app-url.onrender.com', 'localhost']
 SECRET_KEY = os.getenv('SECRET_KEY', 'your-local-secret-key')
 # Application definition
 
@@ -43,6 +42,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', 
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://taskflow-c9tq.onrender.com',
+]
+
 
 ROOT_URLCONF = 'Taskflow.urls'
 
@@ -119,3 +123,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'task_list'
 LOGOUT_REDIRECT_URL = 'login'
+
+CSRF_COOKIE_SECURE = True  # This ensures the cookie is sent over HTTPS
+
+SESSION_COOKIE_SECURE = True  # Ensure session cookies are only sent over HTTPS
